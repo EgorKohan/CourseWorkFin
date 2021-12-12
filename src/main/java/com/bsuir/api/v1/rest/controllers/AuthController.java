@@ -1,5 +1,6 @@
 package com.bsuir.api.v1.rest.controllers;
 
+import com.bsuir.api.v1.dtos.AuthDto;
 import com.bsuir.api.v1.dtos.UserDto;
 import com.bsuir.models.Role;
 import com.bsuir.models.Status;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -38,10 +40,10 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<Map<String, String>> login(@RequestBody UserDto userDto) {
-        String username = userDto.getUsername();
+    public ResponseEntity<Map<String, String>> login(@Valid @RequestBody AuthDto authDto) {
+        String username = authDto.getUsername();
 
-        String password = userDto.getPassword();
+        String password = authDto.getPassword();
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
 
         User user = userService.findUserByUsername(username);
@@ -55,7 +57,7 @@ public class AuthController {
     }
 
     @PostMapping("/authorize")
-    public UserDto authorize(@RequestBody UserDto userDto) {
+    public UserDto authorize(@Valid @RequestBody UserDto userDto) {
         User user = UserDto.toUser(userDto);
         user.setStatus(Status.ACTIVE);
         user.setRoles(Collections.singletonList(Role.USER));
