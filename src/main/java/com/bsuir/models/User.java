@@ -1,6 +1,7 @@
 package com.bsuir.models;
 
 
+import lombok.Builder;
 import lombok.Data;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.MongoId;
@@ -10,6 +11,7 @@ import java.util.List;
 
 @Document
 @Data
+@Builder
 public class User implements Serializable {
 
     @MongoId

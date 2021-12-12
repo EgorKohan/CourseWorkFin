@@ -11,7 +11,7 @@ public class UserDto {
     private String username;
     private String password;
     private String firstName;
-    private String lastName;
+    private String lastName; // разбить на аус и юзера
 
     public static UserDto toDto(User user) {
         return UserDto.builder()
@@ -19,6 +19,15 @@ public class UserDto {
                 .password(user.getPassword())
                 .firstName(user.getFirstName())
                 .lastName(user.getLastName())
+                .build();
+    }
+
+    public static User toUser(UserDto userDto) {
+        return User.builder()
+                .username(userDto.getUsername())
+                .password(userDto.getPassword())
+                .firstName(userDto.getFirstName())
+                .lastName(userDto.getLastName())
                 .build();
     }
 

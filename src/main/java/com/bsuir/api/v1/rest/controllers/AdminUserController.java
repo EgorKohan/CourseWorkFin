@@ -1,5 +1,6 @@
-package com.bsuir.api.v1.dtos;
+package com.bsuir.api.v1.rest.controllers;
 
+import com.bsuir.api.v1.dtos.UserDto;
 import com.bsuir.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
