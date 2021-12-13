@@ -21,4 +21,6 @@ public interface UserService {
 
     UserDetails loadUserByUsername(String username);
 
+    void checkThatUsernameIsUnique(String username);
+
 }

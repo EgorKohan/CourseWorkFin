@@ -34,9 +34,9 @@ public class UserDto extends AuthDto {
         UserDto userDto = UserDto.builder()
                 .firstName(user.getFirstName())
                 .lastName(user.getLastName())
+                .email(user.getEmail())
                 .build();
         userDto.setUsername(user.getUsername());
-        userDto.setPassword(user.getPassword());
         return userDto;
     }
 
@@ -46,6 +46,7 @@ public class UserDto extends AuthDto {
                 .password(userDto.getPassword())
                 .firstName(userDto.getFirstName())
                 .lastName(userDto.getLastName())
+                .email(userDto.getEmail())
                 .build();
     }
 

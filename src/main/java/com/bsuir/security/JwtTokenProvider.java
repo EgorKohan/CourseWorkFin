@@ -2,17 +2,15 @@ package com.bsuir.security;
 
 import com.bsuir.models.Role;
 import com.bsuir.services.UserService;
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jws;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
-import lombok.SneakyThrows;
+import io.jsonwebtoken.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
+import org.springframework.web.server.ResponseStatusException;
 
 import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
@@ -69,10 +67,13 @@ public class JwtTokenProvider {
         return null;
     }
 
-    @SneakyThrows
-    public boolean validateToken(String token) {
-        Jws<Claims> claims = Jwts.parser().setSigningKey(secret).parseClaimsJws(token);
-        return !claims.getBody().getExpiration().before(new Date());
+    public boolean validateToken(String token) throws ResponseStatusException {
+        try {
+            Jws<Claims> claims = Jwts.parser().setSigningKey(secret).parseClaimsJws(token);
+            return !claims.getBody().getExpiration().before(new Date());
+        } catch (ExpiredJwtException ex) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Token was expired. Token: " + token);
+        }
     }
 
     private List<String> getRoleNames(List<Role> roles) {

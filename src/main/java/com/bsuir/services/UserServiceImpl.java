@@ -1,13 +1,14 @@
 package com.bsuir.services;
 
-import com.bsuir.exceptions.UserNotFoundException;
 import com.bsuir.models.SecurityUser;
 import com.bsuir.models.User;
 import com.bsuir.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -28,13 +29,20 @@ public class UserServiceImpl implements UserDetailsService, UserService {
     }
 
     @Override
+    public void checkThatUsernameIsUnique(String username) throws ResponseStatusException {
+        boolean isNotUnique = userRepository.existsUserByUsername(username);
+        if (isNotUnique)
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "User with the same username already exists");
+    }
+
+    @Override
     public List<User> findAll() {
         return userRepository.findAll();
     }
 
     @Override
     public User findUserByUsername(String username) {
-        return userRepository.findFirstByUsername(username).orElseThrow(UserNotFoundException::new);
+        return userRepository.findFirstByUsername(username).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User wasn't found"));
     }
 
     @Override
