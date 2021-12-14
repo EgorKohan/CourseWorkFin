@@ -1,6 +1,7 @@
 package com.bsuir.clients;
 
 import com.bsuir.models.Currency;
+import com.bsuir.repositories.CurrencyRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -40,6 +41,13 @@ public class FreeCurrencyApiClient implements CurrencyApiClient {
                 .toUriString();
         String response = restTemplate.getForObject(urlTemplate, String.class);
         return new Currency(currency, getRatesFromResponse(response));
+    }
+
+    @Override
+    public void saveCurrencyInRepository(CurrencyRepository currencyRepository, Currency currency) {
+        log.info("Start of saveCurrencyInRepository method for FreeCurrencyApiClient");
+        currencyRepository.save(currency);
+        log.info("End of saveCurrencyInRepository method for FreeCurrencyApiClient");
     }
 
     private Map<String, Double> getRatesFromResponse(String response) {
