@@ -17,4 +17,6 @@ public interface DepositService {
 
     void scheduledRefreshing() throws JsonProcessingException;
 
+    Deposit findById(Long id);
+
 }

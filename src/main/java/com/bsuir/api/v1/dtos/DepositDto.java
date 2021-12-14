@@ -3,10 +3,16 @@ package com.bsuir.api.v1.dtos;
 import com.bsuir.models.Deposit;
 import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
+@AllArgsConstructor
+@NoArgsConstructor
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class DepositDto {
 
     @JsonAlias({"vklad_id"})
@@ -33,14 +39,14 @@ public class DepositDto {
         );
     }
 
-    public static Deposit toDepositDto(Deposit deposit) {
-        return new Deposit(
-                null,
+    public static DepositDto toDepositDto(Deposit deposit) {
+        return new DepositDto(
+                deposit.get_id(),
                 deposit.getName(),
-                deposit.getDescription(),
                 deposit.getCurrency(),
                 deposit.getDuration(),
-                deposit.getPercent()
+                deposit.getPercent(),
+                deposit.getDescription()
         );
     }
 

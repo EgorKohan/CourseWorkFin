@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface DepositRepository extends MongoRepository<Deposit, String> {
+public interface DepositRepository extends MongoRepository<Deposit, Long> {
 
     List<Deposit> findAllByCurrency(String currency);
 
