@@ -42,4 +42,6 @@ public class NatBankRbApiClient implements CurrencyApiClient {
         return rates;
     }
 
+
+
 }

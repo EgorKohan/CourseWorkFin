@@ -76,7 +76,7 @@ public class DepositServiceImpl implements DepositService {
             depositRepository.saveAll(deposits);
             log.info("{} deposits were saved", deposits.size());
             log.info("End of scheduling getting currencies task");
-        } catch (JsonProcessingException e) {
+        } catch (Exception e) {
             log.error("Something went wrong while getting deposits: {}", e.getMessage());
         }
     }
