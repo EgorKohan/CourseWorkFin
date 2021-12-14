@@ -5,12 +5,14 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.Getter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.DataAccessResourceFailureException;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import java.util.List;
 import java.util.Map;
 
 @Component
@@ -22,6 +24,10 @@ public class FreeCurrencyApiClient implements CurrencyApiClient {
     @Value("${rate_exchanger.api.free_currencyapi.key}")
     private String key;
 
+    @Value("${rate_exchanger.api.free_currencyapi.supported_currencies}")
+    @Getter
+    private List<String> supportedCurrencies;
+
     @Override
     public Currency getCurrency(String currency) {
         RestTemplate restTemplate = new RestTemplate();
@@ -31,6 +37,11 @@ public class FreeCurrencyApiClient implements CurrencyApiClient {
                 .toUriString();
         String response = restTemplate.getForObject(urlTemplate, String.class);
         return new Currency(currency, getRatesFromResponse(response));
+    }
+
+    @Override
+    public List<String> getSupportedCurrencies() {
+        return null;
     }
 
     private Map<String, Double> getRatesFromResponse(String response) {

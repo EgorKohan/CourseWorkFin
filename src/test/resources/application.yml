@@ -14,9 +14,9 @@ deposits:
 rate_exchanger:
   api:
     nat_bank_rb:
-      url: "https://www.nbrb.by/api/exrates/currencies"
+      url: "https://www.nbrb.by/api/exrates/rates?periodicity=0"
+      supported_currencies: "BYN"
     free_currencyapi:
       url: "https://freecurrencyapi.net/api/v2/latest"
       key: 786e4110-5c81-11ec-b537-37d8c25951fe
-      supported_currencies: [ "USD", "EUR" ]
-
+      supported_currencies: "USD", "EUR", "RUB"
