@@ -1,6 +1,8 @@
 package com.bsuir.services;
 
 import com.bsuir.models.User;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.List;
@@ -8,6 +10,8 @@ import java.util.List;
 public interface UserService {
 
     List<User> findAll();
+
+    Page<User> findAllWPagination(Pageable pageable);
 
     User findUserByUsername(String username);
 
@@ -22,5 +26,7 @@ public interface UserService {
     UserDetails loadUserByUsername(String username);
 
     void checkThatUsernameIsUnique(String username);
+
+    boolean isUserExists(String username);
 
 }

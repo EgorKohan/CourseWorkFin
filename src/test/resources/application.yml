@@ -1,0 +1,7 @@
+jwt:
+  token:
+    secret: "secret"
+    expired: 600
+
+deposits:
+  getUrl: https://belarusbank.by/api/deposits_info

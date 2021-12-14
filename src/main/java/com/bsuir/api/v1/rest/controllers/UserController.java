@@ -23,9 +23,6 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping
-    public List<UserDto> getAllUsers() {
-        return userService.findAll().stream().map(UserDto::toDto).collect(Collectors.toList());
-    }
+
 
 }

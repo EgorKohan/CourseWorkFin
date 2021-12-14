@@ -4,6 +4,8 @@ import com.bsuir.models.SecurityUser;
 import com.bsuir.models.User;
 import com.bsuir.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -30,14 +32,24 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 
     @Override
     public void checkThatUsernameIsUnique(String username) throws ResponseStatusException {
-        boolean isNotUnique = userRepository.existsUserByUsername(username);
+        boolean isNotUnique = isUserExists(username);
         if (isNotUnique)
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "User with the same username already exists");
     }
 
     @Override
+    public boolean isUserExists(String username) {
+        return userRepository.existsUserByUsername(username);
+    }
+
+    @Override
     public List<User> findAll() {
         return userRepository.findAll();
+    }
+
+    @Override
+    public Page<User> findAllWPagination(Pageable pageable) {
+        return userRepository.findAll(pageable);
     }
 
     @Override
