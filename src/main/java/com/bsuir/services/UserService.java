@@ -9,15 +9,11 @@ import java.util.List;
 
 public interface UserService {
 
-    List<User> findAll();
-
     Page<User> findAllWPagination(Pageable pageable);
 
     User findUserByUsername(String username);
 
-    User create(User user);
-
-    User update(User user);
+    User save(User user);
 
     boolean delete(User user);
 

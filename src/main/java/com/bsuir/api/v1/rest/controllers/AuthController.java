@@ -35,7 +35,7 @@ public class AuthController {
     public UserDto authorize(@Valid @RequestBody UserDto userDto) {
         User user = UserDto.toUser(userDto);
         userService.checkThatUsernameIsUnique(user.getUsername());
-        return UserDto.toDto(userService.create(authUserService.fillNewUserWithDefaultData(user)));
+        return UserDto.toDto(userService.save(authUserService.fillNewUserWithDefaultData(user)));
     }
 
 }

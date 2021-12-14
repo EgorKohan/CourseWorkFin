@@ -1,6 +1,7 @@
 package com.bsuir.repositories;
 
 import com.bsuir.models.User;
+import com.bsuir.models.UserActive;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 

@@ -43,11 +43,6 @@ public class UserServiceImpl implements UserDetailsService, UserService {
     }
 
     @Override
-    public List<User> findAll() {
-        return userRepository.findAll();
-    }
-
-    @Override
     public Page<User> findAllWPagination(Pageable pageable) {
         return userRepository.findAll(pageable);
     }
@@ -58,13 +53,8 @@ public class UserServiceImpl implements UserDetailsService, UserService {
     }
 
     @Override
-    public User create(User user) {
+    public User save(User user) {
         return userRepository.insert(user);
-    }
-
-    @Override
-    public User update(User user) {
-        return userRepository.save(user);
     }
 
     @Override

@@ -43,6 +43,12 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         return ResponseEntity.status(status).body(Optional.of(error));
     }
 
+    @Override
+    protected ResponseEntity<Object> handleExceptionInternal(Exception ex, Object body, HttpHeaders headers, HttpStatus status, WebRequest request) {
+        logger.error("ERROR, CHECK IT");
+        return ResponseEntity.notFound().build();
+    }
+
     @Getter
     public static class ErrorInfo {
         private final String url;
