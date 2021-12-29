@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+import java.util.HashSet;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
@@ -47,6 +48,7 @@ public class UserDto extends AuthDto {
                 .firstName(userDto.getFirstName())
                 .lastName(userDto.getLastName())
                 .email(userDto.getEmail())
+                .userActives(new HashSet<>())
                 .build();
     }
 

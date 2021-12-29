@@ -15,7 +15,7 @@ import java.util.Map;
 public class Currency {
 
     @MongoId
-    private String currency;
+    private String currencyStr;
 
     private Map<String, Double> rates;
 

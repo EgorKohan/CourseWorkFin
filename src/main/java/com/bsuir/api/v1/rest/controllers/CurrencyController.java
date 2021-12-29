@@ -5,11 +5,14 @@ import com.bsuir.services.CurrencyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.constraints.Min;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Validated
 @RestController
 @RequestMapping("/api/v1/currencies")
 public class CurrencyController {
@@ -23,11 +26,11 @@ public class CurrencyController {
 
     @GetMapping
     public List<CurrencyDto> getAll(
-            @RequestParam(value = "page", required = false, defaultValue = "5") int page,
-            @RequestParam(value = "size", required = false, defaultValue = "5") int size
+            @RequestParam(value = "page", required = false, defaultValue = "0") @Min(0) int page,
+            @RequestParam(value = "size", required = false, defaultValue = "5") @Min(1) int size
     ) {
         Pageable pageable = PageRequest.of(page, size);
-        return currencyService.getAll(pageable).stream().map(CurrencyDto::toDto).collect(Collectors.toList());
+        return currencyService.getAll(pageable).getContent().stream().map(CurrencyDto::toDto).collect(Collectors.toList());
     }
 
     @GetMapping("/{currency}")

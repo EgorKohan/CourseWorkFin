@@ -44,7 +44,7 @@ public class NatBankRbApiClient implements CurrencyApiClient {
             Currency currencyById = currencyRepository.findById(entry.getKey()).orElse(null);
             if (!isNull(currencyById)) {
                 currencyById.getRates().put("BYN", 1 / entry.getValue());
-                log.info("Update {} currency. Set new BYN rate: {}", currencyById.getCurrency(), 1 / entry.getValue());
+                log.info("Update {} currency. Set new BYN rate: {}", currencyById.getCurrencyStr(), 1 / entry.getValue());
                 currencyRepository.save(currencyById);
             }
         });

@@ -12,8 +12,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.List;
-
 @Service
 public class UserServiceImpl implements UserDetailsService, UserService {
 
@@ -54,7 +52,7 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 
     @Override
     public User save(User user) {
-        return userRepository.insert(user);
+        return userRepository.save(user);
     }
 
     @Override

@@ -20,7 +20,7 @@ public class NatBankRbApiTest {
     @Test
     public void test() {
         Currency byn = natBankRbApiClient.getCurrency("BYN");
-        assertEquals("BYN", byn.getCurrency());
+        assertEquals("BYN", byn.getCurrencyStr());
         assertFalse(byn.getRates().isEmpty());
     }
 

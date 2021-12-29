@@ -1,4 +1,9 @@
 spring:
+  data:
+    mongodb:
+      host: localhost
+      port: 27017
+      database: courseWork
   config:
     activate:
       on-profile: test
@@ -18,5 +23,14 @@ rate_exchanger:
       supported_currencies: "BYN"
     free_currencyapi:
       url: "https://freecurrencyapi.net/api/v2/latest"
-      key: 786e4110-5c81-11ec-b537-37d8c25951fe
-      supported_currencies: "USD", "EUR", "RUB"
+      key: "786e4110-5c81-11ec-b537-37d8c25951fe"
+      supported_currencies: "USD, EUR, RUB"
+
+some-map-values:
+  some-map:
+    key: value
+    key2: value2
+
+logging:
+  root:
+    level: info

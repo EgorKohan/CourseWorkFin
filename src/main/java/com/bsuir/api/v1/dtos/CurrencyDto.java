@@ -16,7 +16,7 @@ public class CurrencyDto {
     private Map<String, Double> rates;
 
     public static CurrencyDto toDto(Currency currencyObj) {
-        return new CurrencyDto(currencyObj.getCurrency(), currencyObj.getRates());
+        return new CurrencyDto(currencyObj.getCurrencyStr(), currencyObj.getRates());
     }
 
     public static Currency toCurrency(CurrencyDto currencyDtoObj) {

@@ -55,4 +55,14 @@ public class CurrencyServiceImpl implements CurrencyService {
         return currencyRepository.findById(currency).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Currency wasn't found"));
     }
 
+    @Override
+    public boolean isCurrencyExist(String currency) {
+        return currencyRepository.existsById(currency);
+    }
+
+    @Override
+    public List<Currency> getAll() {
+        return currencyRepository.findAll();
+    }
+
 }

@@ -6,9 +6,11 @@ import lombok.Getter;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.server.ResponseStatusException;
@@ -16,6 +18,8 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.ConstraintViolation;
+import javax.validation.ConstraintViolationException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -26,11 +30,25 @@ import static org.springframework.security.web.util.UrlUtils.buildFullRequestUrl
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler({
-            ResponseStatusException.class
+            ResponseStatusException.class,
+            InternalAuthenticationServiceException.class
     })
     public ErrorInfo handleCustomException(ResponseStatusException ex, HttpServletRequest request, HttpServletResponse response) {
         response.setStatus(ex.getStatus().value());
         return new ErrorInfo(buildFullRequestUrl(request), ex.getReason());
+    }
+
+    @ExceptionHandler(ConstraintViolationException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    private ValidationErrorResponse handleConstraintViolationException(ConstraintViolationException ex) {
+        ValidationErrorResponse error = new ValidationErrorResponse();
+        for (ConstraintViolation<?> violation : ex.getConstraintViolations()) {
+            String[] split = violation.getPropertyPath().toString().split("\\.");
+            String field = split[split.length - 1];
+            error.getViolations().add(
+                    new Violation(field, violation.getMessage()));
+        }
+        return error;
     }
 
     @Override
@@ -43,10 +61,12 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         return ResponseEntity.status(status).body(Optional.of(error));
     }
 
-    @Override
-    protected ResponseEntity<Object> handleExceptionInternal(Exception ex, Object body, HttpHeaders headers, HttpStatus status, WebRequest request) {
-        logger.error("ERROR, CHECK IT");
-        return ResponseEntity.notFound().build();
+    @ExceptionHandler(RuntimeException.class)
+    public ErrorInfo handleException(HttpServletRequest request, HttpServletResponse response, RuntimeException exception) {
+        exception.printStackTrace();
+        logger.error("Exception: " + exception.getClass() + "message: " + exception.getMessage());
+        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+        return new ErrorInfo(buildFullRequestUrl(request), "Something went wrong at the server side");
     }
 
     @Getter

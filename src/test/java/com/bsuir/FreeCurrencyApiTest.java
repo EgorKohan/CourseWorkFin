@@ -25,10 +25,10 @@ public class FreeCurrencyApiTest {
     private static final String currencyString = "USD";
 
     @Test
-    public void test() throws MalformedURLException {
+    public void test() {
         Currency currency = freeCurrencyApiClient.getCurrency(currencyString);
         log.debug("Currency: {}", currency);
-        assertEquals(currencyString, currency.getCurrency());
+        assertEquals(currencyString, currency.getCurrencyStr());
         assertFalse(currency.getRates().isEmpty());
     }
 
